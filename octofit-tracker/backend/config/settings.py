@@ -26,9 +26,7 @@ SECRET_KEY = 'django-insecure-0@t!@fj56qdr+r1q3nhvjabu-hne*h_6!^afu+&byqs-)=1ja!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-if os.environ.get('CODESPACE_NAME'):
-    ALLOWED_HOSTS.append(f"{os.environ.get('CODESPACE_NAME')}-8000.app.github.dev")
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -86,8 +84,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'octofit_db',
+        'CLIENT': {
+            'host': 'mongodb://localhost:27017',
+        }
     }
 }
 
@@ -134,16 +135,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS Configuration
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
-
-# Add Codespace URL if available
-if os.environ.get('CODESPACE_NAME'):
-    CORS_ALLOWED_ORIGINS.append(f"https://{os.environ.get('CODESPACE_NAME')}-3000.app.github.dev")
-
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ['*']
+CORS_ALLOW_METHODS = ['*']
 
 # REST Framework Configuration
 REST_FRAMEWORK = {

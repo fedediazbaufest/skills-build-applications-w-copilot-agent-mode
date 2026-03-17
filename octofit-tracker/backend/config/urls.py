@@ -41,7 +41,8 @@ def api_root(request):
 router = DefaultRouter()
 
 urlpatterns = [
+    path('', api_root, name='root'),
     path('admin/', admin.site.urls),
     path('api/', api_root, name='api-root'),
-    path('api/', include(router.urls)),
+    path('api/', include('api.urls')),
 ]
